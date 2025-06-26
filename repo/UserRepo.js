@@ -44,6 +44,7 @@ const createNewUser = async (userData) => {
       "INSERT INTO users (FirstName,LastName,Email,Password,Role) VALUES (?, ?, ?, ?, ?)",
       [firstname, lastname, email, password, role]
     );
+    
     return result;
   } catch (error) {
     if (error.code == "ECONNREFUSED") {

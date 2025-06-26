@@ -7,11 +7,14 @@ const UserRoutes = require("./routes/UserRoutes")
 const cookieParser = require('cookie-parser');
 
 
-
+const origins = [
+  'http://localhost:3000',
+  'http://192.168.56.1:3000'
+]
 // Middleware
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://192.168.56.1:3000', // or your frontend origin
+  origin: origins, // or your frontend origin
   credentials: true               // 🔥 required to allow cookies
 })); // Allow all origins, you can specify specific origins if needed
 app.use(bodyParser.json());

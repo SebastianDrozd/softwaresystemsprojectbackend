@@ -9,6 +9,8 @@ const userController = require('../controller/userController');
 router.get('/', userController.getAllUsers);
 // User signup
 router.post('/signup', userController.signupUser);
+//verify token
+router.get("/me",userController.verifyToken)
 
 
 

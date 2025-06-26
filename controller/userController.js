@@ -27,12 +27,15 @@ const signupUser = async (req, res) => {
         password: password,
         role: role
     };
+    
     const createdUser = await userRepo.createNewUser(newUser);
     const payload = {
-      id: createdUser.id,
-      email: createdUser.email,
-      role: createdUser.role,
+      id: createdUser.insertId,
+      firstname: newUser.firstname,
+      email: newUser.email,
+      role: newUser.role,
     };
+
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
     res
       .status(201)
@@ -65,8 +68,23 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
+
+const verifyToken = (req,res) => {
+  const token = req.cookies.token;
+  if(!token){
+    return res.status(401).send("Not authenticated")
+  }
+  try{
+    const user = jwt.verify(token,JWT_SECRET)
+    res.json({id : user.id, email : user.email, firstname : user.firstname, role:user.role})
+  }catch(err){
+    console.log(err)
+  }
+}
+
 module.exports = {
   getAllUsers,
   signupUser,
-  getUserByEmail
+  getUserByEmail,
+  verifyToken
 };
