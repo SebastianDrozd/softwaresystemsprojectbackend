@@ -31,6 +31,7 @@ const getUserByEmail = async (email) => {
         "Database connection refused. Please check your database server."
       );
     }
+    console.log(error)
     throw new InternalServerError(
       "An error occurred while retrieving the user by email."
     );
