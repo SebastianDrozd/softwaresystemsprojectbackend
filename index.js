@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const UserRoutes = require("./routes/UserRoutes")
 const TutorPostsRoutes = require("./routes/TutorPostsRoutes")
+const SubjectRoutes = require("./routes/SubjectRoutes")
 const cookieParser = require('cookie-parser');
 
 
@@ -24,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use('/api/users', UserRoutes);
 app.use("/api/tutorposts",TutorPostsRoutes)
+app.use("/api/subjects",SubjectRoutes)
 
 
 
