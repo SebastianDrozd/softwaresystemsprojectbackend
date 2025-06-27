@@ -7,5 +7,7 @@ router.post("/",tutorPostsController.createNewTutorPost)
 
 //get Posts
 router.get('/',tutorPostsController.getAllPosts)
+//get individual Post
+router.get("/:id",tutorPostsController.getTutorPostById)
 
 module.exports = router;

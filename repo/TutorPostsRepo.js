@@ -71,8 +71,6 @@ const createTutorPost = async (data) => {
 
 
 const getTutorPosts = async () => {
-
-
   try {
     const sql = `SELECT 
   u.id AS user_id,
@@ -107,8 +105,44 @@ GROUP BY p.PostId;`
 
 }
 
+const getTutorPostById = async (id) => {
+  const sql = `SELECT 
+  u.id AS user_id,
+  u.FirstName as FirstName,
+  u.LastName as LastName,
+  u.Email as Email,
+  p.PostId AS post_id,
+  p.Title as PostTitle,
+  p.Description as PostDescription,
+  p.HourlyRate,
+  p.Experience,
+  p.Qualifications,
+  GROUP_CONCAT(DISTINCT s.SubjectName ORDER BY s.SubjectName SEPARATOR '||') AS subjects,
+  GROUP_CONCAT(
+    DISTINCT CONCAT(a.DayOfWeek, ' ', a.StartTime, '-', a.EndTime)
+    ORDER BY FIELD(a.DayOfWeek, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+    a.StartTime
+    SEPARATOR '||'
+  ) AS availability
+FROM users u
+INNER JOIN TutorPosts p ON u.id = p.TutorId
+INNER JOIN TutorPostSubjects ps ON p.PostId = ps.PostId
+INNER JOIN Subjects s ON ps.SubjectId = s.SubjectId
+INNER JOIN TutorAvailability a ON p.TutorId = a.TutorId
+WHERE p.PostId = ? 
+GROUP BY p.PostId`
+  try {
+    const [results] = await pool.query(sql, [id])
+    return results
+  } catch (error) {
+    console.log(error)
+  }
+
+
+}
 
 module.exports = {
   createTutorPost,
-  getTutorPosts
+  getTutorPosts,
+  getTutorPostById
 };

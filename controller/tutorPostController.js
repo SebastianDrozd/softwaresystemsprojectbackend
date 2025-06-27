@@ -23,10 +23,22 @@ const getAllPosts = async (req, res) => {
     }
 }
 
+const getTutorPostById = async(req,res) => {
+    const id = req.params.id
+    console.log("this is id",id)
+    try{
+        const response = await tutorPostRepo.getTutorPostById(id)
+        res.status(200).send(response)
+    } catch(error){
+        res.status(500).send("There was an error")
+    }
+
+}
 
 
 
 module.exports = {
     createNewTutorPost,
-    getAllPosts
+    getAllPosts,
+    getTutorPostById
 }
