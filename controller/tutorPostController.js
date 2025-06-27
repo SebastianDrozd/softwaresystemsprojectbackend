@@ -2,13 +2,24 @@ const tutorPostRepo = require('../repo/TutorPostsRepo')
 
 
 const createNewTutorPost = async (req, res) => {
-    console.log("hit create pst")
     const post = req.body
     try {
-        const res = await tutorPostRepo.createTutorPost(post)
+        const response = await tutorPostRepo.createTutorPost(post)
         res.status(200).send("post made")
     } catch (error) {
-        
+        console.log(error)
+        const code = error.statusCode || 500
+        res.status(code).send(error)
+    }
+}
+
+const getAllPosts = async (req, res) => {
+  
+    try {
+        const response = await tutorPostRepo.getTutorPosts()
+        res.status(200).send(response)
+    } catch (error) {
+        res.status(500).send(error)
     }
 }
 
@@ -16,5 +27,6 @@ const createNewTutorPost = async (req, res) => {
 
 
 module.exports = {
-    createNewTutorPost
+    createNewTutorPost,
+    getAllPosts
 }
